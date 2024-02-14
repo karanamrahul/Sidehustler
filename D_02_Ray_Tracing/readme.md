@@ -36,8 +36,6 @@ Rendering combines ray casting, light simulation, and shading models to produce 
 3. **Color Calculation:** Apply lighting, material properties, and effects like shadows and reflection to determine pixel colors.
 4. **Rendering the Image:** Aggregate all pixel colors to form the final 2D image.
 
-This command compiles `raytracer.cpp` into an executable named `raytracer`, with optimization level 3 and all compiler warnings enabled.
-
 ## Key Components
 
 ### Vector Class (`Vec3`)
