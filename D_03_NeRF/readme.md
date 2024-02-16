@@ -14,6 +14,8 @@ NeRF stands for Neural Radiance Fields. It solves for view interpolation, which 
 
 # Approach
 ![ne](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/3comp.png)
+
+
 A continuous scene is represented as a 3D location *x* = (x, y, z) and 2D viewing direction $(\theta,\phi)$ whose output is an emitted color c = (r, g, b) and volume density $\sigma$. The density at each point acts like a differential opacity controlling how much radiance is accumulated in a ray passing through point *x*. In other words, an opaque surface will have a density of $\infty$ while a transparent surface would have $\sigma = 0$. In layman terms, the neural network is a black box that will repeatedly ask what is the color and what is the density at this point, and it will provide responses such as “red, dense.”\
 This neural network is wrapped into volumetric ray tracing where you start with the back of the ray (furthest from you) and walk closer to you, querying the color and density. The equation for expected color $C(r)$ of a camera ray $r(t) = o + td$ with near and far bounds $t_n$ and $t_f$ is calculated using the following:
 
