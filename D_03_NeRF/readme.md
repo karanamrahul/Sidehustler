@@ -7,16 +7,17 @@ NeRF stands for Neural Radiance Fields. It solves for view interpolation, which 
 
 - **Rasterization**: Computer graphics use this technique to display a 3D object on a 2D screen. Objects on the screen are created from virtual triangles/polygons to create 3D models of the objects. Computers convert these triangles into pixels, which are assigned a color. Overall, this is a computationally intensive process.
 - **Ray Tracing**: In the real world, the 3D objects we see are illuminated by light. Light may be blocked, reflected, or refracted. Ray tracing captures those effects. It is also computationally intensive, but creates more realistic effects.
-- **Ray**: A ray is a line connected from the camera center, determined by camera position parameters, in a particular direction determined by the camera angle.\
+- **Ray**: A ray is a line connected from the camera center, determined by camera position parameters, in a particular direction determined by the camera angle.
 - **NeRF uses ray tracing rather than rasterization for its models.**
 - **Volume Rendering**: This is a technique used to display a 2D projection of a 3D discretely sampled data set. A typical example is a CT scan. The data is a 3D array of voxels, and the rendering is done by projecting the voxels onto a 2D plane.
 - **Neural Rendering** As of 2020/2021, this terminology is used when a neural network is a black box that models the geometry of the world and a graphics engine renders it. Other terms commonly used are *scene representations*, and less frequently, *implicit representations*. In this case, the neural network is just a flexible function approximator and the rendering machine does not learn at all.
 
 # Approach
+
 ![ne](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/3comp.png)
 
 
-A continuous scene is represented as a 3D location *x* = (x, y, z) and 2D viewing direction $(\theta,\phi)$ whose output is an emitted color c = (r, g, b) and volume density $\sigma$. The density at each point acts like a differential opacity controlling how much radiance is accumulated in a ray passing through point *x*. In other words, an opaque surface will have a density of $\infty$ while a transparent surface would have $\sigma = 0$. In layman terms, the neural network is a black box that will repeatedly ask what is the color and what is the density at this point, and it will provide responses such as “red, dense.”\
+A continuous scene is represented as a 3D location *x* = (x, y, z) and 2D viewing direction $(\theta,\phi)$ whose output is an emitted color c = (r, g, b) and volume density $\sigma$. The density at each point acts like a differential opacity controlling how much radiance is accumulated in a ray passing through point *x*. In other words, an opaque surface will have a density of $\infty$ while a transparent surface would have $\sigma = 0$. In layman terms, the neural network is a black box that will repeatedly ask what is the color and what is the density at this point, and it will provide responses such as “red, dense.”
 This neural network is wrapped into volumetric ray tracing where you start with the back of the ray (furthest from you) and walk closer to you, querying the color and density. The equation for expected color $C(r)$ of a camera ray $r(t) = o + td$ with near and far bounds $t_n$ and $t_f$ is calculated using the following:
 
 $$
@@ -33,16 +34,21 @@ To actually calculate this, the authors used a stratified sampling approach wher
 $$\hat{C}(r) = \sum_{i = 1}^{N}T_{i}(1-exp(-\sigma_{i}\delta_{i}))c_{i}, where T_{i} = exp(-\sum_{j=1}^{i-1}\sigma_{j}\delta_{j})$$
 
 ![eq](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/eq.png)
+
 Where $\delta_{i} = t_{i+1} - t_{i}$ is the distance between adjacent samples. The volume rendering is differentiable. You can then train the model by minimizing rendering loss.
 
 $$min_{\theta}\sum_{i}\left\| render_{i}(F_{\Theta}-I_{i}\right\|^{2}$$
 
 ![NeRF](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/paper.png)
+
+
 In this illustration taken from the paper, the five variables are fed into the MLP to produce color and volume density. $F_\Theta$ has 9 layers, 256 channels.
 
-In practice, the Cartesian coordinates are expressed as vector d. You can approximate this representation through MLP with $F_\Theta = (x, d) \rightarrow (c, \sigma)$.\
+In practice, the Cartesian coordinates are expressed as vector d. You can approximate this representation through MLP with $F_\Theta = (x, d) \rightarrow (c, \sigma)$.
+
 **Why does NeRF use MLP rather than CNN?**
-Multilayer perceptron (MLP) is a feed forward neural network. The model doesn’t need to conserve every feature, therefore a CNN is not necessary.\
+
+Multilayer perceptron (MLP) is a feed forward neural network. The model doesn’t need to conserve every feature, therefore a CNN is not necessary.
 
 # Common issues and mitigation
 
@@ -62,10 +68,6 @@ x = nn.Dense(x, features = 256)
 Mapping how Fourier features are related to NeRF’s positional encoding. Taken from Jon Barron’s CS 231n talk in Spring 2021.
 
 NeRF also uses hierarchical volume sampling: coarse sampling and the fine network. This allows NeRF to more efficiently run their model and deprioritize areas of the camera ray where there is free space and occlusion. The coarse network uses $N_{c}$ sample points to evaluate the expected color of the ray with the stratified sampling. Based on these results, they bias the samples towards more relevant parts of the volume.
-
-$$\hat{C}_c(r) = \sum_{i=1}^{N_{c}}w_{i}c_{i}, w_{i}=T_{i}(1-exp(-\sigma_{i}\delta_{i}))$$
-
-A second set of $N_{f}$ locations are sampled from this distribution using inverse transform sampling. This method allocates more samples to regions where we expect visual content.
 
 ### Key Developments in NeRF
 
