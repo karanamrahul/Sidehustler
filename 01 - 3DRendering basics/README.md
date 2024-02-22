@@ -43,8 +43,8 @@ To view and manipulate the Grogu model:
 # Results
 
 ### Render 1
-![Render 1](https://github.com/karanamrahul/Sidehustler/blob/main/D_01_3DRendering_basics/3dmodel.png)
+![Render 1](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/01%20-%203DRendering%20basics/3dmodel.png)
 
 
 ### Texture Maps
-![Texture Maps](https://github.com/karanamrahul/Sidehustler/blob/main/D_01_3DRendering_basics/texture.png)
+![Texture Maps](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/01%20-%203DRendering%20basics/grogu_3dmodel.png)

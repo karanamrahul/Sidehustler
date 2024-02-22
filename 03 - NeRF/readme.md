@@ -14,7 +14,7 @@ NeRF stands for Neural Radiance Fields. It solves for view interpolation, which 
 
 # Approach
 
-![ne](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/3comp.png)
+![ne](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/03%20-%20NeRF/3comp.png)
 
 
 A continuous scene is represented as a 3D location *x* = (x, y, z) and 2D viewing direction $(\theta,\phi)$ whose output is an emitted color c = (r, g, b) and volume density $\sigma$. The density at each point acts like a differential opacity controlling how much radiance is accumulated in a ray passing through point *x*. In other words, an opaque surface will have a density of $\infty$ while a transparent surface would have $\sigma = 0$. In layman terms, the neural network is a black box that will repeatedly ask what is the color and what is the density at this point, and it will provide responses such as “red, dense.”
@@ -33,13 +33,13 @@ To actually calculate this, the authors used a stratified sampling approach wher
 
 $$\hat{C}(r) = \sum_{i = 1}^{N}T_{i}(1-exp(-\sigma_{i}\delta_{i}))c_{i}, where T_{i} = exp(-\sum_{j=1}^{i-1}\sigma_{j}\delta_{j})$$
 
-![eq](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/eq.png)
+![eq](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/03%20-%20NeRF/eq.png)
 
 Where $\delta_{i} = t_{i+1} - t_{i}$ is the distance between adjacent samples. The volume rendering is differentiable. You can then train the model by minimizing rendering loss.
 
 $$min_{\theta}\sum_{i}\left\| render_{i}(F_{\Theta}-I_{i}\right\|^{2}$$
 
-![NeRF](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/paper.png)
+![NeRF](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/03%20-%20NeRF/paper.png)
 
 
 In this illustration taken from the paper, the five variables are fed into the MLP to produce color and volume density. $F_\Theta$ has 9 layers, 256 channels.
@@ -63,7 +63,7 @@ B = SCALE * np.random.normal(shape = (input_dims, NUM_FEATURES))
 x = np.concatenate([np.sin(x @ B), np.cos(x @ B)], axis = -1)
 x = nn.Dense(x, features = 256)
 ```
-![Fourier Features](https://github.com/karanamrahul/Sidehustler/blob/main/D_03_NeRF/fourier.png)
+![Fourier Features](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/03%20-%20NeRF/fourier.png)
 
 Mapping how Fourier features are related to NeRF’s positional encoding. Taken from Jon Barron’s CS 231n talk in Spring 2021.
 

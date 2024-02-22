@@ -17,16 +17,16 @@ The essence of ray casting involves projecting a 3D scene onto a 2D plane, akin 
 Ray tracing simulates light's interaction with objects to produce realistic colors and shadows:
 
 - **Forward Ray Tracing:** Traces rays from the light source to the viewer, though inefficient for image rendering.
-![Forward Ray Tracing](https://github.com/karanamrahul/Sidehustler/blob/main/D_02_Ray_Tracing/tracefromeyetolight.gif)
+![Forward Ray Tracing](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/02%20-%20Ray%20Tracing/tracefromeyetolight.gif)
 - **Backward Ray Tracing (Ray Casting):** Starts rays at the viewer's eye, tracing outward until they hit scene objects, focusing only on rays that contribute to the visible scene.
 
 ## Key Components of Ray Casting
 
 - **Reflection and Refraction:** Simulate realistic effects of light bouncing off or passing through surfaces.
-![Reflection and Refraction](https://github.com/karanamrahul/Sidehustler/blob/main/D_02_Ray_Tracing/reflectionrefraction.gif)
+![Reflection and Refraction](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/02%20-%20Ray%20Tracing/reflectionrefraction.gif)
 - **Primary Ray:** The initial ray determining the first object intersection to calculate the pixel's basic color.
 - **Shadow Ray:** Cast toward light sources after an object intersection to simulate shadows.
-![Shadow Ray](https://github.com/karanamrahul/Sidehustler/blob/main/D_02_Ray_Tracing/lightingnoshadow.gif)
+![Shadow Ray](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/02%20-%20Ray%20Tracing/lightingnoshadow.gif)
 ## Rendering: The Final Step
 
 Rendering combines ray casting, light simulation, and shading models to produce the final image, involving:
@@ -77,7 +77,7 @@ Ray casting is the process of shooting rays from the eye (camera) into the scene
 
 This basic approach demonstrates the fundamental principle of ray tracing, allowing for the creation of images with realistic lighting and shading effects.
 
-![Ray Tracing](https://github.com/karanamrahul/Sidehustler/blob/main/D_02_Ray_Tracing/raytrace1.png)
+![Ray Tracing](https://github.com/karanamrahul/Sidehustler/blob/4b56ccb0dfe3d6de7dcea8bb5c8fb1f185a43f9c/02%20-%20Ray%20Tracing/raytrace1.png)
 ## Dependencies
 
 - Standard C++ Compiler (e.g., GCC, Clang)
